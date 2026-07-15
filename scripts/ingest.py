@@ -10,14 +10,13 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from langchain_community.vectorstores import Chroma
 
-from app.config import settings
+from app.config import COLLECTION_NAME, settings
 from app.core.embeddings import sentence_transformer_embeddings
 from app.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 KNOWLEDGE_BASE_DIR = Path("data/knowledge_base")
-COLLECTION_NAME = "helpdesk_kb"
 
 
 def load_knowledge_base() -> tuple[list[str], list[str], list[dict]]:
