@@ -23,3 +23,7 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+# Shared ChromaDB collection name — must stay identical between scripts/ingest.py
+# (which writes it) and app/core/retriever.py (which reads it).
+COLLECTION_NAME = "helpdesk_kb"
