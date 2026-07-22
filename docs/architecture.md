@@ -5,6 +5,10 @@ Document key choices here as you make them, for example:
 - Chunking strategy and chunk size rationale
 - Confidence threshold and fallback routing logic
 
+## Onboarding fix: `pydantic-settings` was missing from `requirements.txt`
+
+`app/config.py` imports `pydantic_settings`, but it was never added to `requirements.txt` — it happened to already be installed in the dev `.venv` from earlier manual setup, so this went unnoticed until writing a from-scratch setup guide (`README.md`) surfaced it. A fresh clone following `pip install -r requirements.txt` would have hit `ModuleNotFoundError: No module named 'pydantic_settings'` the moment anything imported `app.config`. Fixed by adding `pydantic-settings` to `requirements.txt`. Also wrote a full `README.md` setup/run guide for a new contributor pulling the repo cold — covers obtaining `llama.cpp` and the model weights (both gitignored, not in the repo), the three processes that need to run together, and remote/SSH port-forwarding, since none of that was written down anywhere a new person would find it before this.
+
 ## Ingestion (`scripts/ingest.py`)
 
 - **What gets embedded**: each knowledge base rule's `question` field only, not the answer. FAQ-style retrieval works best matching the user's question against other questions (semantically similar phrasing), not against answer text. The `answer`, `category`, `support_email`, `source_url`, and `last_updated` fields are stored as ChromaDB metadata on the same vector, so once a question match is found, the full rule is available without a second lookup.
