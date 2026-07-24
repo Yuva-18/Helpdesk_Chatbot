@@ -20,6 +20,17 @@ class Settings(BaseSettings):
 
     eservices_support_email: str
     network_support_email: str
+    hpce_support_email: str
+
+    @property
+    def support_email_by_category(self) -> dict[str, str]:
+        """Category -> fallback support email. Add a new category by adding
+        one field above plus one entry here."""
+        return {
+            "Eservices": self.eservices_support_email,
+            "Network": self.network_support_email,
+            "Hpce": self.hpce_support_email,
+        }
 
 
 settings = Settings()

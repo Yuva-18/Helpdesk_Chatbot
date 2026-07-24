@@ -22,12 +22,11 @@ class ConfidenceResult:
 
 
 def _support_email_for_category(category: str) -> str:
-    if category == "Eservices":
-        return settings.eservices_support_email
-    if category == "Network":
-        return settings.network_support_email
+    email = settings.support_email_by_category.get(category)
+    if email is not None:
+        return email
     logger.warning("Unknown category %r; defaulting to Eservices support email", category)
-    return settings.eservices_support_email
+    return settings.support_email_by_category["Eservices"]
 
 
 def evaluate_confidence(retrieved_rules: list[RetrievedRule]) -> ConfidenceResult:
