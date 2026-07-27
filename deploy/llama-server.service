@@ -1,0 +1,15 @@
+[Unit]
+Description=llama-server (local LLM backend for the helpdesk chatbot)
+After=network.target
+
+[Service]
+Type=simple
+# EDIT: replace with the real deploy user and the repo's absolute path.
+User=youruser
+WorkingDirectory=/path/to/hd_chatbot/scripts
+ExecStart=/path/to/hd_chatbot/scripts/start_llama_server.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,6 +1,6 @@
 // Chat interface logic: sends queries to /chat and renders responses
 
-const API_BASE_URL = "http://localhost:8000";
+const API_BASE_URL = ""; // relative — frontend is served same-origin by app/main.py
 
 const messagesEl = document.getElementById("messages");
 const formEl = document.getElementById("chat-form");

@@ -111,7 +111,7 @@ This reads every rule in `data/knowledge_base/**/*.jsonl`, embeds each one, and 
 
 ## Running the application
 
-You need **three things running at once**, each in its own terminal (or background process).
+You need **two things running at once**, each in its own terminal (or background process). The FastAPI backend serves the frontend itself (same-origin), so there's no separate frontend server anymore.
 
 ### Terminal 1 — the LLM server
 
@@ -127,7 +127,7 @@ curl http://localhost:8080/health
 # {"status":"ok"}
 ```
 
-### Terminal 2 — the FastAPI backend
+### Terminal 2 — the FastAPI backend (also serves the frontend)
 
 ```bash
 source .venv/bin/activate
@@ -141,18 +141,9 @@ curl http://localhost:8000/health
 # {"status":"ok"}
 ```
 
-### Terminal 3 — the frontend
+Then open **http://localhost:8000** in your browser — that's the chat UI, served by this same process.
 
-The frontend is plain static HTML/CSS/JS with no build step. Serve it with any static file server:
-
-```bash
-cd frontend
-python3 -m http.server 5500
-```
-
-Then open **http://localhost:5500** in your browser.
-
-> **Working on a remote server over SSH (e.g. VS Code Remote-SSH)?** "localhost" in your browser refers to *your own laptop*, not the remote machine these servers are running on. You'll need to forward ports `5500` and `8000` (VS Code's "Ports" panel, or `ssh -L 5500:localhost:5500 -L 8000:localhost:8000 ...`) before the page will load. Port `8080` doesn't need forwarding — only the backend talks to it directly.
+> **Working on a remote server over SSH (e.g. VS Code Remote-SSH)?** "localhost" in your browser refers to *your own laptop*, not the remote machine these servers are running on. You'll need to forward port `8000` (VS Code's "Ports" panel, or `ssh -L 8000:localhost:8000 ...`) before the page will load. Port `8080` doesn't need forwarding — only the backend talks to it directly.
 
 ### Try it
 

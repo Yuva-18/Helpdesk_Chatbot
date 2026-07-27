@@ -63,10 +63,9 @@ def load_knowledge_base() -> tuple[list[str], list[str], list[dict]]:
     return ids, texts, metadatas
 
 
-def main() -> None:
-    ids, texts, metadatas = load_knowledge_base()
-    logger.info("Total rules to ingest: %d", len(ids))
-
+def upsert_rules(ids: list[str], texts: list[str], metadatas: list[dict]) -> None:
+    """Embeds and upserts the given rules into the shared ChromaDB collection.
+    Shared with scripts/reset_db.py so both scripts store data identically."""
     vectorstore = Chroma(
         collection_name=COLLECTION_NAME,
         embedding_function=sentence_transformer_embeddings,
@@ -80,6 +79,12 @@ def main() -> None:
         COLLECTION_NAME,
         settings.chroma_persist_dir,
     )
+
+
+def main() -> None:
+    ids, texts, metadatas = load_knowledge_base()
+    logger.info("Total rules to ingest: %d", len(ids))
+    upsert_rules(ids, texts, metadatas)
 
 
 if __name__ == "__main__":

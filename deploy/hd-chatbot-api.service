@@ -1,0 +1,16 @@
+[Unit]
+Description=hd_chatbot FastAPI app (helpdesk chatbot API + frontend)
+After=network.target llama-server.service
+Wants=llama-server.service
+
+[Service]
+Type=simple
+# EDIT: replace with the real deploy user and the repo's absolute path.
+User=youruser
+WorkingDirectory=/path/to/hd_chatbot
+ExecStart=/path/to/hd_chatbot/.venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

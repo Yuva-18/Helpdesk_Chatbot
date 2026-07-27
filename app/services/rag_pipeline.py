@@ -77,10 +77,11 @@ def answer_query(question: str) -> ChatResult:
     if top_rule.support_email in top_rule.answer and top_rule.support_email not in answer:
         logger.warning(
             "Verified answer for rule=%s references %s, but the generated answer doesn't "
-            "contain it — the model may have altered it. Verify before trusting the inline email.",
+            "contain it — the model may have altered it. Appending the verified email.",
             top_rule.rule_id,
             top_rule.support_email,
         )
+        answer = f"{answer}\n\n(Verified contact: {top_rule.support_email})"
 
     return ChatResult(
         answer=answer,
